@@ -1,0 +1,37 @@
+#version: "3.9"
+
+services:
+  spark:
+    image: bitnami/spark:3.5.1
+    command: ["sleep", "infinity"]
+    volumes:
+      - .:/workspace
+
+  dbt:
+    build:
+      context: .
+      dockerfile: Dockerfile.dbt
+    entrypoint: ["dbt"]
+    command: ["debug"]  # can override with any dbt command later
+    volumes:
+    - .:/workspace
+    - ./dbt/profiles.yml:/root/.dbt/profiles.yml
+    working_dir: /workspace/dbt
+
+    
+
+
+  airflow:
+    image: apache/airflow:2.9.0
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    volumes:
+      - .:/workspace
+    command: >
+      bash -c "
+        airflow db init &&
+        airflow users create -u admin -p admin -r Admin -e lucadellamur@gmx.de -f a -l b &&
+        airflow webserver
+      "
+    ports:
+      - "8080:8080"

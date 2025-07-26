@@ -1,0 +1,7 @@
+ecommerce_pipeline:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: '/workspace/data/bakery.duckdb'
+      threads: 1

@@ -1,0 +1,14 @@
+name: 'ecommerce_pipeline'
+version: '1.0.0'
+config-version: 2
+
+profile: 'ecommerce_pipeline'
+
+model-paths: ["models"]
+seed-paths: ["data"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
